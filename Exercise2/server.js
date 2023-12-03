@@ -8,11 +8,19 @@ app.use(express.json());
 let dbConnect = require("./dbConnect");
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to my MongoDB application." });
+  res.json({ message: "Welcome to my Exercise2 application." });
 });
 
 let userRoutes = require("./routes/userRoutes");
+let postRoutes = require("./routes/postRoutes");
+let commentRoutes = require("./routes/commentRoutes");
+let likeRoutes = require("./routes/likeRoutes");
+
 app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/likes", likeRoutes);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
