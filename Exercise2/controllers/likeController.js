@@ -35,8 +35,8 @@ const createLike = (data, res) => {
 ////Not working
 // async function createLike(data, res) {
 //   try {
-//     new Models.Like({ data }).save();
-//     console.log(data)
+//     await Models.Like.create({ data });
+//     console.log(newLike)
 //     res.send({ result: 200, data: data });
 //   } catch (e) {
 //     res.send({ result: 500, error: e.message });

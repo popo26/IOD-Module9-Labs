@@ -5,6 +5,7 @@ const userSchema = require("./user");
 const postSchema = new Schema({
   title: { type: String, trim: true, required: true },
   content: { type: String },
+  images:[{type:String}],
   createdAt: {
     type: Date,
     immutable: true,
