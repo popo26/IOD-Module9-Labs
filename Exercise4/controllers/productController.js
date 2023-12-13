@@ -3,14 +3,25 @@
 const getProducts = (req, res) => {
   fetch("https://dummyjson.com/products")
     .then((data) => data.json())
-    .then((json) => console.log(json))
-    .then((data) => res.send({ result: 200, data }))
+    .then((json) => {console.log(json); res.send({ result: 200, data:json })})
 
     .catch((err) => {
       console.log(err);
       res.json({ result: 500, error: err.message });
     });
 };
+
+// const getProducts = (req, res) => {
+//   fetch("https://dummyjson.com/products")
+//     .then((data) => data.json())
+//     .then((json) => console.log(json))
+//     .then((data) => res.send({ result: 200, data }))
+
+//     .catch((err) => {
+//       console.log(err);
+//       res.json({ result: 500, error: err.message });
+//     });
+// };
 
 
 const getProductByID = (req, res) => {
