@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      #form {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+      }
+      #input {
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1;
+        border-radius: 2rem;
+        margin: 0.25rem;
+      }
+      #input:focus {
+        outline: none;
+      }
+      #form > button {
+        background: #333;
+        border: none;
+        padding: 0 1rem;
+        margin: 0.25rem;
+        border-radius: 3px;
+        outline: none;
+        color: #fff;
+      }
+
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages > li {
+        padding: 0.5rem 1rem;
+      }
+      #messages > li:nth-child(odd) {
+        background: #efefef;
+      }
+
+      .connectionMsg {
+        font-style: italic;
+        color: green;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the chat<span id="username"></span></h1>
+    <section id="online"></section>
+    <p id="typing"></p>
+    <div id="user">
+      <form id="nicknameForm">
+        <input
+          id="nickname"
+          type="text"
+          placeholder="Your nickname here"
+        />
+        <button>Connect</button>
+      </form>
+    </div>
+    <div
+      id="chat"
+      class="hidden"
+    >
+      <ul id="messages"></ul>
+      <form
+        id="form"
+        action=""
+      >
+        <input
+          id="input"
+          autocomplete="off"
+        /><button>Send</button>
+      </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      function printMessage(msg) {
+        var item = document.createElement("li");
+        // Add Support for Nicknames.
+        if (msg.nickname) {
+          item.textContent = msg.nickname + ": ";
+          
+        }
+        item.textContent += msg.text;
+        if (msg.connectionMsg) {
+          item.className = "connectionMsg";
+        }
+        let messages = document.getElementById("messages");
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+
+      var clientSocket = io();
+
+      window.addEventListener("load", (event) => {
+        console.log("page is fully loaded");
+        clientSocket.emit("new user");
+      });
+
+      var form = document.getElementById("form");
+      var input = document.getElementById("input");
+      const inputNickName = document.getElementById("nickname");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (input.value && inputNickName.value) {
+          clientSocket.emit("chat message", { nickname: inputNickName.value, text: input.value });
+          input.value = "";
+        }
+      });
+
+      nicknameForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (inputNickName.value) {
+          let chat = document.getElementById("chat");
+          chat.className = "";
+          let user = document.getElementById("user");
+          user.className = "hidden";
+          document.getElementById("username").innerText = `   << Nickname: ${inputNickName.value} >>`;
+          // document.getElementById("online").innerText = `ONLINE: ${inputNickName.value}`
+          // clientSocket.broadcast.emit("online", function () {`${inputNickName.value} is online`})
+
+        }
+      });
+
+      clientSocket.on("chat message", function (msg) {
+        printMessage(msg);
+      });
+
+      clientSocket.on("new user", function (msg) {
+        printMessage(msg);
+
+        //NOT working
+        clientSocket.emit("online", {nickname: msg.nickname})
+
+      });
+
+      clientSocket.on("user disconnect", function (msg) {
+        printMessage(msg);
+      });
+
+      input.addEventListener("keydown", (event) => {
+        console.log("nick name ", inputNickName.value);
+        clientSocket.emit("typing", { nickname: inputNickName.value });
+      });
+
+      clientSocket.on("typing", function (msg) {
+        let paragraph = document.getElementById("typing");
+        paragraph.innerText = msg.text;
+      });
+
+      clientSocket.on("not typing", function () {
+        let paragraph = document.getElementById("typing");
+        paragraph.innerText = "";
+      });
+
+    
+
+    
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////
+ORIGINAL///////////////////////////////////////////////////////////////////////////// -->
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+
+      #form {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+      }
+      #input {
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1;
+        border-radius: 2rem;
+        margin: 0.25rem;
+      }
+      #input:focus {
+        outline: none;
+      }
+      #form > button {
+        background: #333;
+        border: none;
+        padding: 0 1rem;
+        margin: 0.25rem;
+        border-radius: 3px;
+        outline: none;
+        color: #fff;
+      }
+
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages > li {
+        padding: 0.5rem 1rem;
+      }
+      #messages > li:nth-child(odd) {
+        background: #efefef;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const clientSocket = io();
+      const form = document.getElementById("form");
+      const input = document.getElementById("input");
+
+      // window.addEventListener("load", (event)=> {
+      //   console.log("page is fully loaded")
+      //   clientSocket.emit("new user");
+      // })
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (input.value) {
+          clientSocket.emit("chat message", input.value);
+          input.value = "";
+        }
+      });
+
+      clientSocket.on("chat message", function (msg) {
+        console.log("Client side");
+        var item = document.createElement("li");
+        item.textContent = msg;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+    </script>
+  </body>
+</html> -->
