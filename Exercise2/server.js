@@ -1,9 +1,14 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser")
 require("dotenv").config();
 
 // parse requests of content-type -application / json;
 app.use(express.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 
 let dbConnect = require("./dbConnect");
 

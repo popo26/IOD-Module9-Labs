@@ -16,7 +16,7 @@ const createUser = (data, res) => {
 const updateUser = (req, res) => {
   //updates the user matching the ID from the param using
   //JSON data POSTed in request body
-  console.log(req.body);
+  console.log("Req Body in Controller", req.body);
   myUser.userPut(req, res);
 };
 

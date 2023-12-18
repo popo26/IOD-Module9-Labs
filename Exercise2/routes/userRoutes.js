@@ -12,6 +12,7 @@ router.post("/create", (req, res) => {
 
 router.put("/:id", (req, res) => {
   Controllers.userController.updateUser(req, res);
+  console.log("Req body in Routes", req.body)
 });
 
 router.delete("/:id", (req, res) => {

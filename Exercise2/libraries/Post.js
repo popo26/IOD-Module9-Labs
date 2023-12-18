@@ -22,6 +22,7 @@ class Post {
       });
   }
 
+  //REQ.BODY is empty - not working
   postPut(req, res) {
     Models.Post.findByIdAndUpdate(req.params.id, req.body, {
       useFindAndModify: false,

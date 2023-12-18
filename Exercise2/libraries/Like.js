@@ -22,18 +22,20 @@ class Like {
     });
   }
 
-  async likePut(req, res){
-    try {
-        const newLike = Models.Like.findByIdAndUpdate(req.params.id, req.body, {
-          useFindAndModify: false,
-        });
-        await newLike.save();
-        res.send({ result: 200, data: newLike });
-      } catch (e) {
-        res.send({ result: 500, error: e.message });
-      }
-  }
+  //No need
+//   async likePut(req, res){
+//     try {
+//         const newLike = Models.Like.findByIdAndUpdate(req.params.id, req.body, {
+//           useFindAndModify: false,
+//         });
+//         await newLike.save();
+//         res.send({ result: 200, data: newLike });
+//       } catch (e) {
+//         res.send({ result: 500, error: e.message });
+//       }
+//   }
 
+//Not working
   async likeDelete(req, res){
     try {
         const deletedLike = Models.Like.findByIdAndDelete(req.params.id, req.body, {

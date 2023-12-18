@@ -23,7 +23,11 @@ class User {
       });
   }
 
+  //REQ.BODY is empty - not working
   userPut(req, res) {
+    console.log("param id", req.params.id);
+    console.log("req body in Library", req.body);
+
     Models.User.findByIdAndUpdate(req.params.id, req.body, {
       useFindAndModify: false,
     })

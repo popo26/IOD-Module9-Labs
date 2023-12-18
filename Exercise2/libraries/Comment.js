@@ -22,6 +22,7 @@ class Comment{
         });
     }
 
+      //REQ.BODY is empty - not working
     commentPut(req, res){
         Models.Comment.findByIdAndUpdate(req.params.id, req.body, {
             useFindAndModify: false,
