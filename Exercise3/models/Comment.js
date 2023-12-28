@@ -4,7 +4,6 @@ const sequelizeInstance = dbConnect.Sequelize;
 const User = require("./User");
 const Post = require("./Post");
 
-
 class Comment extends Model {}
 //Sequelize will create this table if it doesn't exist on startup
 Comment.init(
@@ -21,20 +20,20 @@ Comment.init(
       required: true,
     },
     userId: {
-        type: DataTypes.INTEGER,
-        references:{
-          model:User,
-          key:'id'
-        }
-    },
-    postId: {
-        type: DataTypes.INTEGER,
-        references:{
-          model:Post,
-          key:'id'
-        }
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: "id",
       },
-   
+    },
+    //This has been problem.
+    // postId: {
+    //     type: DataTypes.INTEGER,
+    //     references:{
+    //       model:Post,
+    //       key:'id'
+    //     }
+    //   },
   },
   {
     sequelize: sequelizeInstance,
