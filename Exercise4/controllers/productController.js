@@ -81,7 +81,6 @@ const postProduct = (req, res) => {
 };
 
 const updateProduct = (req, res) => {
-  console.log("req body PUT", req.body)
   console.log("PUT param", req.params.id);
   //updates the user matching the ID from the param using
   //JSON data POSTed in request body
@@ -107,17 +106,11 @@ const updateProduct = (req, res) => {
 const deleteProduct = (req, res) => {
   console.log("DELETE prams", req.params.id);
   //deletes the user matching the ID from the param
-  fetch(`https://dummyjson.com/products/${req.params.id}`, {
-    method: "DELETE",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-  })
+  fetch(`https://dummyjson.com/products/delete/${req.params.id}`)
   .then((data) => data.json())
   .then((json) => {
-    //console.log(json);
-    res.send({ result: 200, data:json });
+    console.log(json);
+    res.send({ result: 200, data: json });
   })
     .catch((err) => {
       console.log(err);

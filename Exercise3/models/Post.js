@@ -23,11 +23,11 @@ Post.init(
       allowNull: false,
       required: true,
     },
-    images: {
-      // type: DataTypes.ARRAY(DataTypes.STRING),
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // images: {
+    //   // type: DataTypes.ARRAY(DataTypes.STRING),
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
     userId: {
       type: DataTypes.INTEGER,
       references: {
