@@ -106,12 +106,12 @@ const updateProduct = (req, res) => {
 const deleteProduct = (req, res) => {
   console.log("DELETE prams", req.params.id);
   //deletes the user matching the ID from the param
-  fetch(`https://dummyjson.com/products/delete/${req.params.id}`)
-  .then((data) => data.json())
-  .then((json) => {
-    console.log(json);
-    res.send({ result: 200, data: json });
-  })
+  fetch(`https://dummyjson.com/products/${req.params.id}`)
+    .then((data) => data.json())
+    .then((json) => {
+      console.log(json);
+      res.send({ result: 200, data: json });
+    })
     .catch((err) => {
       console.log(err);
       res.send({ result: 500, error: err.message });
